@@ -5,7 +5,7 @@ module Undraw
       asset_path = "#{Undraw.root}/vendor/assets/images/undraw/#{filename}.svg"
       vendor_path =  "#{Rails.root}/vendor/assets/images/undraw/#{filename}.svg"
       begin
-        
+
         if File.exist?(vendor_path)
           svg_file = File.read(vendor_path)
         else
@@ -13,7 +13,7 @@ module Undraw
         end
 
         color = transform_params.delete(:color)
- 
+
         if color.is_a?(Hash)
          #:todo:
          #= undraw("building", color: {primary: #ff6347, hair: black}, class: 'undraw-features', size: "350*150")
@@ -23,7 +23,7 @@ module Undraw
         end
 
         svg_file.gsub!(/#6c63ff/, primary) if primary
-        #inline_svg svg_file, class: 'some-class' 
+        #inline_svg svg_file, class: 'some-class'
         InlineSvg::TransformPipeline.generate_html_from(svg_file, transform_params).html_safe
       rescue Errno::ENOENT
         raise Undraw::FileNotFound.new("Asset not found: #{filename}, you can manually download and place svg in #{vendor_path}")
