@@ -1,0 +1,10 @@
+#!/bin/bash
+for ((i=1;i<60;i++)); do
+  curl -s https://undraw.co/api/illustrations\?page\=$i |
+  jq '.illustrations[] | (.title, .image)' -r -M |
+  sed -e 's/\(.*\)/\1/; s/\ /_/g' |
+  xargs -n2 -L2 bash -c 'curl --silent --output ./imgs/$1.svg $2 > /dev/null' bash;
+done;
+
+rename -f 'y/A-Z/a-z/' ./imgs/* && rename -- 's/$/.svg/' ./imgs/* && mv imgs/* vendor/assets/images/undraw
+
